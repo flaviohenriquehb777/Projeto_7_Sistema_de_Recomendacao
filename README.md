@@ -39,7 +39,7 @@ O principal objetivo deste projeto é aprimorar a experiência de compra dos cli
 Este repositório está organizado da seguinte forma:
 
 * `dados/`: Contém os dados brutos e o arquivo `data.parquet` utilizados para a análise e treinamento do modelo.
-    * `criando_uma_apresentacao_executiva.csv`: A base de dados bruta.
+    * `dados_brutos_sams_club.csv`: A base de dados bruta.
     * `dados_tratados.parquet`: Versão tratada e otimizada da base de dados, salva no formato Parquet para melhor performance.
 * `models/`: (Diretório para modelos salvos, se aplicável, como `best_model_recomendacao.keras`)
 * `notebooks/`: Contém os notebooks Jupyter que documentam o processo de desenvolvimento.
