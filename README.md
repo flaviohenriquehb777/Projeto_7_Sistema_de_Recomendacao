@@ -1,14 +1,18 @@
 # Sistema de Recomendações (Sam's Club - Walmart)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![DVC](https://img.shields.io/badge/DVC-Enabled-blue.svg)](https://dvc.org/)
+[![MLflow](https://img.shields.io/badge/MLflow-Tracking-blue.svg)](https://mlflow.org/)
+[![CI/CD](https://img.shields.io/badge/CI/CD-GitHub_Actions-green.svg)](https://github.com/features/actions)
 
-**Sistema de recomendações de produtos para consumidores do Sam's Club - Walmart, utilizando Deep Learning para personalização e otimização da experiência de compra.**
+**Sistema de recomendações de produtos para consumidores do Sam's Club - Walmart, utilizando Deep Learning para personalização e otimização da experiência de compra, com ambiente MLOps completo.**
 
 ## Sumário
 - [Descrição do Projeto](#descrição-do-projeto)
 - [Motivação](#motivação)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Estrutura do Projeto](#estrutura-do-projeto)
+- [Ambiente MLOps](#ambiente-mlops)
 - [Base de Dados](#base-de-dados)
 - [Processo de Desenvolvimento](#processo-de-desenvolvimento)
 - [Instalação e Uso](#instalação-e-uso)
@@ -33,23 +37,35 @@ O principal objetivo deste projeto é aprimorar a experiência de compra dos cli
 * **Pandas:** Para manipulação e análise de dados.
 * **Numpy:** Para operações numéricas otimizadas.
 * **TensorFlow (Keras):** Framework de Deep Learning para construção e treinamento do modelo de recomendação.
-* **SHAP:** Para interpretação da importância das características no modelo (exploratório no `04_777_Metodo_SHAP.ipynb`).
-* **Matplotlib / Seaborn:** Para visualização de dados (se aplicável nos notebooks).
+* **SHAP:** Para interpretação da importância das características no modelo.
+* **Matplotlib / Seaborn:** Para visualização de dados.
+* **DVC:** Para versionamento de dados e modelos.
+* **MLflow:** Para rastreamento de experimentos e registro de modelos.
+* **GitHub Actions:** Para CI/CD automatizado.
+* **DagsHub:** Para integração e visualização de experimentos MLOps.
 
 ## Estrutura do Projeto:
 
 Este repositório está organizado da seguinte forma:
 
-* `dados/`: Contém os dados brutos e o arquivo `data.parquet` utilizados para a análise e treinamento do modelo.
+* `dados/`: Contém os dados brutos e o arquivo `data.parquet` utilizados para a análise e treinamento do modelo (versionados com DVC).
     * `dados_brutos_sams_club.csv`: A base de dados bruta.
     * `dados_tratados.parquet`: Versão tratada e otimizada da base de dados, salva no formato Parquet para melhor performance.
-* `models/`: (Diretório para modelos salvos, se aplicável, como `best_model_recomendacao.keras`)
+* `models/`: Diretório para modelos salvos (versionados com DVC).
+    * `best_model_recomendacao.keras`: Modelo de recomendação treinado.
 * `notebooks/`: Contém os notebooks Jupyter que documentam o processo de desenvolvimento.
     * `01_777_Sistema_Recomendacao_Inicial.ipynb`: Análise exploratória inicial, pré-processamento de dados e correções.
     * `02_777_Sistema_Recomendacao_Final.ipynb`: Implementação do modelo de recomendação, treinamento e geração das primeiras recomendações.
     * `03_777_Sistema_Recomendacao_Producao.ipynb`: Adaptação do modelo para um ambiente de produção e salvamento do modelo treinado.
     * `04_777_Metodo_SHAP.ipynb`: Exploração do método SHAP para interpretar as previsões do modelo.
-* `img/`: (Se houver imagens no README, como a do screenshot da saída do modelo)
+    * `05_SHAP_Avancado.ipynb`: Análise avançada com SHAP para explicabilidade personalizada.
+* `.github/workflows/`: Configurações de CI/CD com GitHub Actions.
+* `.dagshub/`: Configurações para integração com DagsHub.
+* `src/`: Código fonte do projeto.
+    * `config/`: Configurações e utilitários.
+        * `model_utils.py`: Funções avançadas para o modelo de recomendação.
+    * `mlflow_config.py`: Configuração do MLflow para rastreamento de experimentos.
+* `img/`: Imagens utilizadas no README.
     * `Screenshot_saida_modelo.png`: Captura de tela da saída de exemplo do modelo.
 * `README.md`: Este arquivo.
 * `LICENSE.md`: Arquivo contendo a licença do projeto (MIT).
@@ -89,6 +105,38 @@ O desenvolvimento do sistema de recomendação seguiu as seguintes etapas princi
 4.  **Interpretabilidade do Modelo (`04_777_Metodo_SHAP.ipynb`):**
     * Aplicação do método SHAP (SHapley Additive exPlanations) para entender a contribuição de cada característica nas previsões do modelo, fornecendo insights sobre por que certas recomendações são feitas.
 
+## Ambiente MLOps:
+
+Este projeto implementa um ambiente MLOps completo com as seguintes ferramentas e configurações:
+
+### DVC (Data Version Control)
+* Versionamento de dados e modelos grandes
+* Configurado com Google Drive como remote storage
+* Arquivos versionados: `dados/dados_tratados.parquet` e `models/best_model_recomendacao.keras`
+
+### MLflow
+* Rastreamento de experimentos e métricas do modelo
+* Registro de modelos com diferentes versões
+* Comparação de desempenho entre experimentos
+* Integração com DagsHub para visualização centralizada
+
+### GitHub Actions (CI/CD)
+* Pipeline automatizado para linting, testes e build
+* Verificação de qualidade de código com Black, isort e pylint
+* Execução de testes unitários com pytest
+* Integração com DagsHub para versionamento de dados e modelos
+
+### Melhorias no Modelo
+* Implementação de validação cruzada
+* Regularização L2 e dropout para evitar overfitting
+* Métricas avançadas de recomendação (precision@k, recall@k, F1@k)
+* Hiperparametrização com rastreamento MLflow
+
+### Explicabilidade Avançada
+* Análise detalhada com SHAP para interpretação do modelo
+* Visualizações personalizadas por grupos de clientes
+* Comparação de explicações entre diferentes modelos
+
 ## Instalação e Uso:
 
 Para configurar e executar este projeto em seu ambiente local, siga as instruções abaixo:
@@ -97,8 +145,40 @@ Para configurar e executar este projeto em seu ambiente local, siga as instruç�
     * Python 3.8+
     * `pip` (gerenciador de pacotes do Python)
     * Jupyter Lab ou Jupyter Notebook
+    * Conta no DagsHub (opcional, para integração completa)
 
 2.  **Clone o repositório:**
+```bash
+git clone https://github.com/seu_usuario/Projeto_7_Sistema_de_Recomendacao.git
+cd Projeto_7_Sistema_de_Recomendacao
+```
+
+3.  **Instale as dependências:**
+```bash
+pip install -r requirements.txt
+```
+
+4.  **Configure o ambiente DVC:**
+```bash
+# Baixar dados e modelos versionados
+dvc pull
+```
+
+5.  **Configure o MLflow (opcional):**
+```bash
+# Para usar o MLflow localmente
+mlflow ui
+
+# Para usar com DagsHub
+export MLFLOW_TRACKING_URI=https://dagshub.com/seu_usuario/Projeto_7_Sistema_de_Recomendacao.mlflow
+export MLFLOW_TRACKING_USERNAME=seu_usuario
+export MLFLOW_TRACKING_PASSWORD=seu_token
+```
+
+6.  **Execute os notebooks:**
+```bash
+jupyter lab
+```
     ```bash
     git clone [https://github.com/seu-usuario/Projeto_7_Sistema_de_Recomendacao.git](https://github.com/seu-usuario/Projeto_7_Sistema_de_Recomendacao.git)
     cd Projeto_7_Sistema_de_Recomendacao
