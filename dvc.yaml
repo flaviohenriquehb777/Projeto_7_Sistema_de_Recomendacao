@@ -1,0 +1,28 @@
+stages:
+  data_preparation:
+    cmd: python src/scripts/otimizacao_modelo_simples.py
+    deps:
+    - src/scripts/otimizacao_modelo_simples.py
+    - data/raw/
+    outs:
+    - data/processed/
+    
+  model_training:
+    cmd: python src/scripts/otimizacao_modelo.py
+    deps:
+    - src/scripts/otimizacao_modelo.py
+    - data/processed/
+    outs:
+    - models/optimized/
+    metrics:
+    - metrics/model_metrics.json
+    
+  ensemble_training:
+    cmd: python src/scripts/modelo_ensemble.py
+    deps:
+    - src/scripts/modelo_ensemble.py
+    - models/optimized/
+    outs:
+    - models/ensemble/
+    metrics:
+    - metrics/ensemble_metrics.json
