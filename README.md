@@ -59,11 +59,19 @@ Este repositório está organizado da seguinte forma:
     * `03_777_Sistema_Recomendacao_Producao.ipynb`: Adaptação do modelo para um ambiente de produção e salvamento do modelo treinado.
     * `04_777_Metodo_SHAP.ipynb`: Exploração do método SHAP para interpretar as previsões do modelo.
     * `05_SHAP_Avancado.ipynb`: Análise avançada com SHAP para explicabilidade personalizada.
+* `scripts/`: Scripts utilitários para automação e experimentos.
+    * `populate_mlflow_experiments.py`: Popula MLflow com experimentos históricos.
+    * `run_live_experiment.py`: Executa experimentos ao vivo.
+    * `verify_dagshub_experiments.py`: Verifica sincronização com DagsHub.
+* `docs/`: Documentação especializada do projeto.
+    * `OPTIMIZATION_GUIDE.md`: Guia completo das otimizações implementadas.
+    * `SYNC_GUIDE.md`: Guia de sincronização GitHub/DagsHub.
 * `.github/workflows/`: Configurações de CI/CD com GitHub Actions.
 * `.dagshub/`: Configurações para integração com DagsHub.
 * `src/`: Código fonte do projeto.
     * `config/`: Configurações e utilitários.
         * `model_utils.py`: Funções avançadas para o modelo de recomendação.
+        * `dagshub_config.py`: Configuração do DagsHub e MLflow.
     * `mlflow_config.py`: Configuração do MLflow para rastreamento de experimentos.
 * `img/`: Imagens utilizadas no README.
     * `Screenshot_saida_modelo.png`: Captura de tela da saída de exemplo do modelo.
@@ -136,6 +144,18 @@ Este projeto implementa um ambiente MLOps completo com as seguintes ferramentas 
 * Análise detalhada com SHAP para interpretação do modelo
 * Visualizações personalizadas por grupos de clientes
 * Comparação de explicações entre diferentes modelos
+
+## Otimizações Implementadas
+
+O sistema passou por um processo extensivo de otimização, alcançando **66.1% de melhoria** no MSE através de:
+
+* **🧠 Otimização de Hiperparâmetros:** Grid Search automático
+* **🏗️ Arquiteturas Múltiplas:** Deep, Wide e Attention Models
+* **🎭 Modelo Ensemble:** Combinação de 6 algoritmos diferentes
+* **📊 Métricas Avançadas:** Precision@k, Recall@k, F1@k
+* **🛡️ Regularização Avançada:** L2, Dropout, Early Stopping
+
+**📖 Para detalhes completos das otimizações:** Consulte <mcfile name="OPTIMIZATION_GUIDE.md" path="docs/OPTIMIZATION_GUIDE.md"></mcfile>
 
 ## Instalação e Uso:
 
